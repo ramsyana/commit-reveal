@@ -1,18 +1,12 @@
 # Commit-Reveal²
 
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![arXiv](https://img.shields.io/badge/arXiv-2504.03936-b31b1b.svg)](https://arxiv.org/abs/2504.03936)
 
 An implementation of "Commit-Reveal²: Randomized Reveal Order Mitigates Last-Revealer Attacks" protocol for distributed consensus applications, following the specifications from Lee et al. (2025).
 
-## Overview
-
-Commit-Reveal² is a protocol implementation that enables participants to make verifiable commitments and reveals in a distributed system. The protocol operates in two phases:
-
-1. **Commitment Phase (Phase 0)**: Participants generate and commit to secret values using cryptographic primitives
-2. **Reveal Phase**: Participants reveal their commitments and verify others' reveals
-
-## Features
-
+### Key Features
 - Two-layer Commit-Reveal² protocol preventing last-revealer attacks
 - Secure cryptographic primitives (Keccak-256 hashing, ECDSA signatures)
 - Randomized reveal order generation
@@ -22,101 +16,81 @@ Commit-Reveal² is a protocol implementation that enables participants to make v
 - Leader-based communication simulation
 - Comprehensive test coverage
 
+## Requirements
+
+* Python (>= 3.10 recommended)
+* ecdsa==0.18.0
+* pysha3==1.0.2
+* merkletools==1.0.3
+* pytest==7.4.3
+
+A `requirements.txt` file is included for easy installation of dependencies.
+
 ## Installation
 
-```bash
-# Clone the repository
-git clone [repository-url]
-cd commit-reveal
+1. **Clone the repository:**
+    ```bash
+    git clone https://github.com/ramsyana/commit-reveal
+    cd commit-reveal
+    ```
 
-# Install dependencies
-pip install -r requirements.txt
+2. **Install the required packages:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+## Testing
+
+This project uses `pytest` for unit testing. To run the tests:
+
+1. Make sure you are in the root directory of the project (where the `pytest.ini` or `pyproject.toml` file would be, or just the main project folder).
+2. Ensure your virtual environment is activated.
+3. Run the following command:
+   ```bash
+   pytest
+   ```
+   Or for more detailed output:
+   ```bash
+   pytest -v
+   ```
+
+## License
+
+This project is licensed under the MIT License.
+
+```text
+MIT License
+
+Copyright (c) 2025 [Ramsyana/ramsyana.com - ramsyana[at]mac.com]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 ```
 
-## Usage
-
-### Basic Example
-
-```python
-from src.participant import Participant
-
-# Initialize a participant
-participant = Participant("participant_1")
-
-# Generate commitment chain
-participant.generate_commitments()
-
-# Sign and send data to leader
-data = b"example data"
-data, signature = participant.send_to_leader(data, "phase0")
-```
-
-## Components
-
-### Cryptographic Utilities
-
-- **Hash Function**: Keccak-256 implementation for commitment generation
-- **Key Management**: ECDSA keypair generation and Ethereum-style address derivation
-- **Signatures**: Message signing and verification
-
-### Participant
-
-The `Participant` class manages:
-- Identity and key material
-- Commitment chain generation
-- Leader communication
-- Data signing
-
-## Development
-
-### Testing
-
-The project uses pytest for testing. Run the test suite:
-
-```bash
-python -m pytest tests/
-```
-
-Phase 0 tests cover:
-- Cryptographic utility functions
-- Participant initialization and operations
-- Commitment chain verification
-- Leader communication simulation
-
-### Project Structure
-
-```
-commit-reveal/
-├── src/
-│   ├── crypto_utils.py   # Cryptographic primitives
-│   └── participant.py    # Participant implementation
-├── tests/
-│   └── test_phase0.py   # Phase 0 test suite
-└── requirements.txt      # Project dependencies
-```
-
-## Contributing
+## Collaboration & Contribution
 
 Contributions are welcome! Please ensure:
 1. Tests pass and coverage is maintained
 2. Code follows project style and conventions
 3. Documentation is updated for significant changes
 
-## Authors
-
-- Suhyeon Lee (Tokamak Network)
-- Euisin Gee (Tokamak Network)
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Academic Reference
-
-This implementation follows the Commit-Reveal² protocol described in:
-
-Lee et al. "Commit-Reveal²: Randomized Reveal Order Mitigates Last-Revealer Attacks" [arXiv:2504.03936](https://arxiv.org/abs/2504.03936)
-
-## Open for Collaboration
+## Contact
 
 Contact maintainers at: ramsyana[at]mac.com
+
+If you're interested in collaborating on the protocol or related research, please don't hesitate to reach out.
