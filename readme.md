@@ -2,9 +2,9 @@
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![arXiv](https://img.shields.io/badge/arXiv-2504.03936-b31b1b.svg)](https://arxiv.org/abs/2504.03936)
+[![arXiv](https://img.shields.io/badge/arXiv-2504.03936v1-b31b1b.svg)](https://arxiv.org/abs/2504.03936v1)
 
-An implementation of "Commit-Reveal²: Randomized Reveal Order Mitigates Last-Revealer Attacks" protocol for distributed consensus applications, following the specifications from Lee et al. (2025).
+An implementation of "Commit-Reveal²: Randomized Reveal Order Mitigates Last-Revealer Attacks in Commit-Reveal" protocol for distributed consensus applications, following the specifications from Lee and Gee (to appear in ICBC 2025).
 
 ### Key Features
 - Two-layer Commit-Reveal² protocol preventing last-revealer attacks
@@ -19,12 +19,12 @@ An implementation of "Commit-Reveal²: Randomized Reveal Order Mitigates Last-Re
 ## Requirements
 
 * Python (>= 3.10 recommended)
-* ecdsa==0.18.0
-* pysha3==1.0.2
-* merkletools==1.0.3
-* pytest==7.4.3
+* ecdsa
+* pysha3
+* merkletools
+* pytest
 
-A `requirements.txt` file is included for easy installation of dependencies.
+See `requirements.txt` for specific package versions.
 
 ## Installation
 
@@ -34,7 +34,13 @@ A `requirements.txt` file is included for easy installation of dependencies.
     cd commit-reveal
     ```
 
-2. **Install the required packages:**
+2. **Create and activate a virtual environment:**
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
+    ```
+
+3. **Install the required packages:**
     ```bash
     pip install -r requirements.txt
     ```
@@ -61,7 +67,7 @@ This project is licensed under the MIT License.
 ```text
 MIT License
 
-Copyright (c) 2025 [Ramsyana/ramsyana.com - ramsyana[at]mac.com]
+Copyright (c) 2024-2025 Ramsyana/ramsyana.com - ramsyana[at]mac.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
