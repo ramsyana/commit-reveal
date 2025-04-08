@@ -104,13 +104,19 @@ Contributions are welcome! Please ensure:
 
 ## Authors
 
-- Suhyeon Lee (Korea University)
-- ramsyana (Implementation)
+- Suhyeon Lee (Tokamak Network)
+- Euisin Gee (Tokamak Network)
 
 ## License
 
-[Apache License 2.0](LICENSE)
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Collaboration
+## Academic Reference
 
-This project is open for collaboration. Please reach out to ramsyana@mac.com for contribution opportunities.
+This implementation follows the Commit-Reveal² protocol described in:
+
+Lee et al. "Commit-Reveal²: Randomized Reveal Order Mitigates Last-Revealer Attacks" [arXiv:2504.03936](https://arxiv.org/abs/2504.03936)
+
+## Open for Collaboration
+
+Contact maintainers at: ramsyana[at]mac.com
