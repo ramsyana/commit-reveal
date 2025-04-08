@@ -1,6 +1,8 @@
 # Commit-Reveal²
 
-A secure and efficient implementation of a two-phase commit-reveal protocol for distributed consensus applications.
+[![arXiv](https://img.shields.io/badge/arXiv-2504.03936-b31b1b.svg)](https://arxiv.org/abs/2504.03936)
+
+An implementation of "Commit-Reveal²: Randomized Reveal Order Mitigates Last-Revealer Attacks" protocol for distributed consensus applications, following the specifications from Lee et al. (2025).
 
 ## Overview
 
@@ -11,7 +13,10 @@ Commit-Reveal² is a protocol implementation that enables participants to make v
 
 ## Features
 
+- Two-layer Commit-Reveal² protocol preventing last-revealer attacks
 - Secure cryptographic primitives (Keccak-256 hashing, ECDSA signatures)
+- Randomized reveal order generation
+- Hybrid on-chain/off-chain architecture
 - Deterministic commitment chain generation
 - Participant identity management
 - Leader-based communication simulation
@@ -97,6 +102,15 @@ Contributions are welcome! Please ensure:
 2. Code follows project style and conventions
 3. Documentation is updated for significant changes
 
+## Authors
+
+- Suhyeon Lee (Korea University)
+- ramsyana (Implementation)
+
 ## License
 
-[License details to be added]
+[Apache License 2.0](LICENSE)
+
+## Collaboration
+
+This project is open for collaboration. Please reach out to ramsyana@mac.com for contribution opportunities.
