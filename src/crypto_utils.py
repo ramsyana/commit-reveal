@@ -9,7 +9,7 @@ This module provides core cryptographic operations including:
 
 from typing import Tuple, Union
 import secrets
-import pysha3
+import sha3
 from ecdsa import SigningKey, VerifyingKey, SECP256k1
 
 def hash_function(data: Union[str, bytes]) -> bytes:
@@ -23,7 +23,7 @@ def hash_function(data: Union[str, bytes]) -> bytes:
     """
     if isinstance(data, str):
         data = data.encode('utf-8')
-    keccak = pysha3.keccak_256()
+    keccak = sha3.keccak_256()
     keccak.update(data)
     return keccak.digest()
 

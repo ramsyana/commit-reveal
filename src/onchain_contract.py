@@ -12,6 +12,8 @@ Handles commitment submissions and verifications:
 from typing import Dict, List, Optional, Set
 from enum import Enum, auto
 import logging
+import functools
+import operator
 from crypto_utils import hash_function
 
 class Phase(Enum):
@@ -170,7 +172,13 @@ class OnChainCommitReveal2:
         Orders participants by d_i values (ascending)
         """
         # Compute omega_v (XOR of all cv values)
-        omega_v = bytes(a ^ b for a, b in zip(*self.commitments_cv.values()))
+        # Calculate byte-wise XOR sum across all cv values
+        all_cvs = list(self.commitments_cv.values())
+        if not all_cvs:
+            omega_v = b'\x00' * 32  # Default to 32 zero bytes if no commitments
+        else:
+            omega_v = bytes(functools.reduce(operator.xor, byte_tuple) 
+                            for byte_tuple in zip(*all_cvs))
         self.omega_v = omega_v
         
         # Compute d_i values for ordering

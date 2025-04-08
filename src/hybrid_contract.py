@@ -17,7 +17,7 @@ class HybridContract:
         self.merkle_root_cv: Optional[bytes] = None
         self.omega_o: Optional[bytes] = None
         self.phase = Phase.AWAITING_ROOT
-        self.merkle_tree = MerkleTools(hash_type='keccak_256')
+        self.merkle_tree = MerkleTools(hash_type='sha3_256')  # Using sha3_256 for simulation compatibility
         logging.basicConfig(level=logging.INFO)
         self.logger = logging.getLogger(__name__)
     

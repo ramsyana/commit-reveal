@@ -12,7 +12,7 @@ class LeaderNode:
         self.received_s_signed: Dict[str, Tuple[bytes, bytes]] = {}  # address -> (s, original_cv_signature)
         self.merkle_root_cv: Optional[bytes] = None
         self.reveal_order: List[str] = []
-        self.merkle_tree = MerkleTools(hash_type='keccak_256')
+        self.merkle_tree = MerkleTools(hash_type='sha3_256')  # Using sha3_256 for simulation compatibility
         logging.basicConfig(level=logging.INFO)
         self.logger = logging.getLogger(__name__)
     
