@@ -115,7 +115,7 @@ def test_contract_integration(contract, leader, participants):
     secrets = []
     signatures = []
     for addr in contract.activated_addresses:
-        s, sig = leader.received_s_signed[addr]
+        s, sig = leader.final_secrets_and_sigs[addr]
         secrets.append(s)
         signatures.append(sig)
     
@@ -154,7 +154,7 @@ def test_participant_scaling(num_participants):
     secrets = []
     signatures = []
     for addr in contract.activated_addresses:
-        s, sig = leader.received_s_signed[addr]
+        s, sig = leader.final_secrets_and_sigs[addr]
         secrets.append(s)
         signatures.append(sig)
     

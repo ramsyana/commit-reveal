@@ -22,7 +22,7 @@ class LeaderNode:
         # Off-chain state
         self.received_cv_signed: Dict[str, Tuple[bytes, bytes]] = {}  # address -> (cv, signature)
         self.received_co: Dict[str, bytes] = {}  # address -> co
-        self.received_s_signed: Dict[str, Tuple[bytes, bytes]] = {}  # address -> (s, original_cv_signature)
+        self.final_secrets_and_sigs: Dict[str, Tuple[bytes, bytes]] = {}  # address -> (s, original_cv_sig)
 
         # Merkle Tree and Reveal Order
         self.merkle_tree = MerkleTools(hash_type='sha3_256')  # Using sha3_256 for simulation compatibility
@@ -104,9 +104,14 @@ class LeaderNode:
     
     def _compute_reveal_order_offchain(self) -> None:
         """Computes omega_v and the reveal order based on received C_v values."""
-        if not self.all_cv_received:
-            self.logger.error("Cannot compute reveal order before all C_v are received.")
+        if len(self.received_cv_signed) != len(self.activated_addresses) or not self.activated_addresses:
+            self.logger.error(f"Cannot compute reveal order. Received {len(self.received_cv_signed)} C_v, expected {len(self.activated_addresses)}.")
+            self.reveal_order = []
+            self.omega_v = None
             return
+
+        self.all_cv_received = True
+        self.logger.info(f"Computing reveal order. Received {len(self.received_cv_signed)} C_v, expected {len(self.activated_addresses)}.")
 
         # Extract C_v values IN ACTIVATION ORDER
         all_cvs_ordered = []
@@ -114,8 +119,10 @@ class LeaderNode:
             if addr in self.received_cv_signed:
                 all_cvs_ordered.append(self.received_cv_signed[addr][0])
             else:
-                self.logger.error(f"Missing C_v for activated address {addr.hex()} when computing order.")
-                return # Cannot compute order if C_v is missing
+                self.logger.error(f"CRITICAL state inconsistency: Missing C_v for {addr.hex()} during ordered extraction.")
+                self.reveal_order = []
+                self.omega_v = None
+                return
 
         if not all_cvs_ordered:
             self.logger.warning("No C_v commitments available to compute reveal order.")
@@ -152,29 +159,35 @@ class LeaderNode:
             self.logger.error("Reveal order not yet computed")
             return False
         
-        expected_sender = self.reveal_order[len(self.received_s_signed)]
+        expected_sender_index = len(self.final_secrets_and_sigs)
+        if expected_sender_index >= len(self.reveal_order):
+            self.logger.error(f"Cannot receive S: All secrets received. Index: {expected_sender_index}, Order len: {len(self.reveal_order)}")
+            return False
+        
+        expected_sender = self.reveal_order[expected_sender_index]
         if sender != expected_sender:
-            self.logger.error(f"Wrong reveal order. Expected: {expected_sender}, got: {sender}")
+            self.logger.error(f"Received S out of order. Expected {expected_sender.hex()}, got {sender.hex()}.")
             return False
         
         co = self.received_co.get(sender)
         if co is None:
-            self.logger.error(f"No C_o received from {sender}")
+            self.logger.error(f"No C_o received from {sender.hex()}")
             return False
         
         if hash_function(s) != co:
-            self.logger.error(f"Invalid secret from {sender}: hash mismatch")
+            self.logger.error(f"Invalid S from {sender.hex()}. Hash(s) != stored C_o.")
             return False
         
-        # Get the original signature from C_v submission
-        cv_data = self.received_cv_signed[sender]
-        original_sig = cv_data[1]  # Get signature from tuple
+        if sender not in self.received_cv_signed:
+            self.logger.error(f"Critical error: Missing original C_v signature for {sender.hex()}")
+            return False
         
-        self.received_s_signed[sender] = (s, original_sig)
-        self.logger.info(f"Received valid secret from {sender.hex()}")
+        original_cv_sig = self.received_cv_signed[sender][1]
+        self.final_secrets_and_sigs[sender] = (s, original_cv_sig)
+        self.logger.info(f"Received valid S from {sender.hex()} (reveal order {expected_sender_index+1})")
         
-        if len(self.received_s_signed) == len(self.participants):
-            self.logger.info("All secrets received")
+        if len(self.final_secrets_and_sigs) == len(self.activated_addresses):
+            self.logger.info("All secrets received off-chain.")
             self.all_s_received = True
         return True
     
